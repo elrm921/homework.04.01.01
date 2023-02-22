@@ -24,22 +24,25 @@ public:
 
     std::string BuildQuery()
     {
-        querry_string = "SELECT ";
         int columns_size = columns.size();
+        if (columns_size > 0) querry_string = "SELECT ";
+        else querry_string = "SELECT * ";
         for (int i=0; i<columns_size; i++)
         {
             querry_string += columns[i];
             if (i < columns_size-1) querry_string += ", ";
         }
-        querry_string += " FROM ";
+
         int tables_size = tables.size();
+        if (tables_size > 0) querry_string += " FROM ";
         for (int i=0; i<tables_size; i++)
         {
             querry_string += tables[i];
             if (i < tables_size-1) querry_string += ", ";
         }
-        querry_string += " WHERE ";
+
         int conditions_size = conditions.size();
+        if (conditions_size > 0) querry_string += " WHERE ";
         for (int i=0; i<conditions_size; i++)
         {
             querry_string += conditions[i].first + "=" + conditions[i].second;
@@ -65,7 +68,7 @@ int main()
 
     auto test = query_builder.BuildQuery();
     std::cout << test << std::endl;
-    
+
     assert(test == "SELECT name, phone FROM students WHERE id=42 AND name=John;");
     
     return 0;
